@@ -1,0 +1,14 @@
+		(1)	(2)
+VARIABLES	LABELS	Model	Model
+			
+educ	educ	0.5322***	0.6347***
+		(0.0534)	(0.0540)
+exper	exper		0.0695***
+			(0.0111)
+Constant	Constant	-0.7350	-3.2094***
+		(0.6882)	(0.7718)
+			
+Observations		518	518
+R-squared		0.1615	0.2212
+Standard errors in parentheses			
+*** p<0.01, ** p<0.05, * p<0.1			

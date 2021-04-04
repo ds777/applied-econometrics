@@ -1,0 +1,309 @@
+----------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/carlos/Github/00-DS/applied-econometrics/c00-introStata/../results/c
+> 00-introStata.txt
+  log type:  text
+ opened on:   4 Apr 2021, 20:10:19
+
+. 
+. clear all
+
+. macro drop _all
+
+. set more off
+
+. 
+. /*=============================================>>>>>
+> = PROGRAM: Introduction to stata =
+> ===============================================>>>>>*
+> 
+> Outline:
+>         Importing data
+>         Exploring data
+>         Editing data
+>         Exporting regression output
+>         Creating log files
+> 
+> Data files:
+>         wage1.dta
+> 
+> Code source:
+>         This program is based on the code of Ani Katchova.
+> 
+> *=============================================<<<<<*/
+. 
+. /*=============================================>>>>>
+> = Define key parameters =
+> ===============================================>>>>>*/
+. global programName c00-introStata
+
+. 
+. 
+. /*=============================================>>>>>
+> = Import data =
+> ===============================================>>>>>*/
+. use "../data/wage1", clear
+
+. 
+. /*=============================================>>>>>
+> = Explore data =
+> ===============================================>>>>>*/
+. 
+. /*----------- Describe data -----------*/
+. describe
+
+Contains data from ../data/wage1.dta
+  obs:           526                          
+ vars:            24                          29 Aug 2016 15:27
+----------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+----------------------------------------------------------------------------------------
+wage            double  %10.0g                wage
+educ            byte    %10.0g                educ
+exper           byte    %10.0g                exper
+tenure          byte    %10.0g                tenure
+nonwhite        byte    %10.0g                nonwhite
+female          byte    %10.0g                female
+married         byte    %10.0g                married
+numdep          byte    %10.0g                numdep
+smsa            byte    %10.0g                smsa
+northcen        byte    %10.0g                northcen
+south           byte    %10.0g                south
+west            byte    %10.0g                west
+construc        byte    %10.0g                construc
+ndurman         byte    %10.0g                ndurman
+trcommpu        byte    %10.0g                trcommpu
+trade           byte    %10.0g                trade
+services        byte    %10.0g                services
+profserv        byte    %10.0g                profserv
+profocc         byte    %10.0g                profocc
+clerocc         byte    %10.0g                clerocc
+servocc         byte    %10.0g                servocc
+lwage           double  %10.0g                lwage
+expersq         int     %10.0g                expersq
+tenursq         int     %10.0g                tenursq
+----------------------------------------------------------------------------------------
+Sorted by: 
+
+. describe wage educ exper
+
+              storage   display    value
+variable name   type    format     label      variable label
+----------------------------------------------------------------------------------------
+wage            double  %10.0g                wage
+educ            byte    %10.0g                educ
+exper           byte    %10.0g                exper
+
+. 
+. /*----------- List data -----------*/
+. list wage educ exper in 1/10
+
+     +----------------------+
+     |  wage   educ   exper |
+     |----------------------|
+  1. |   3.1     11       2 |
+  2. |  3.24     12      22 |
+  3. |     3     11       2 |
+  4. |     6      8      44 |
+  5. |   5.3     12       7 |
+     |----------------------|
+  6. |  8.75     16       9 |
+  7. | 11.25     18      15 |
+  8. |     5     12       5 |
+  9. |   3.6     12      26 |
+ 10. | 18.18     17      22 |
+     +----------------------+
+
+. 
+. /*----------- Summary statistics -----------*/
+. summarize
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        wage |        526    5.896103    3.693086        .53      24.98
+        educ |        526    12.56274    2.769022          0         18
+       exper |        526    17.01711    13.57216          1         51
+      tenure |        526    5.104563    7.224462          0         44
+    nonwhite |        526    .1026616    .3038053          0          1
+-------------+---------------------------------------------------------
+      female |        526    .4790875     .500038          0          1
+     married |        526     .608365    .4885804          0          1
+      numdep |        526    1.043726    1.261891          0          6
+        smsa |        526    .7224335    .4482246          0          1
+    northcen |        526    .2509506    .4339728          0          1
+-------------+---------------------------------------------------------
+       south |        526    .3555133    .4791242          0          1
+        west |        526    .1692015    .3752867          0          1
+    construc |        526    .0456274    .2088743          0          1
+     ndurman |        526    .1140684     .318197          0          1
+    trcommpu |        526    .0437262      .20468          0          1
+-------------+---------------------------------------------------------
+       trade |        526    .2870722    .4528262          0          1
+    services |        526    .1007605    .3012978          0          1
+    profserv |        526    .2585551    .4382574          0          1
+     profocc |        526    .3669202    .4824233          0          1
+     clerocc |        526    .1673004    .3735991          0          1
+-------------+---------------------------------------------------------
+     servocc |        526    .1406844    .3480267          0          1
+       lwage |        526    1.623268    .5315382  -.6348783   3.218076
+     expersq |        526    473.4354    616.0448          1       2601
+     tenursq |        526    78.15019    199.4347          0       1936
+
+. summarize wage educ exper
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        wage |        526    5.896103    3.693086        .53      24.98
+        educ |        526    12.56274    2.769022          0         18
+       exper |        526    17.01711    13.57216          1         51
+
+. summarize wage, detail
+
+                            wage
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%         1.67            .53
+ 5%         2.75           1.43
+10%         2.92            1.5       Obs                 526
+25%         3.33            1.5       Sum of Wgt.         526
+
+50%         4.65                      Mean           5.896103
+                        Largest       Std. Dev.      3.693086
+75%         6.88          21.86
+90%           10           22.2       Variance       13.63888
+95%           13          22.86       Skewness       2.007325
+99%           20          24.98       Kurtosis       7.970083
+
+. 
+. /*----------- Summary stastistics by group -----------*/
+. tabulate female
+
+     female |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |        274       52.09       52.09
+          1 |        252       47.91      100.00
+------------+-----------------------------------
+      Total |        526      100.00
+
+. summarize wage if female==1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        wage |        252    4.587659    2.529363        .53      21.63
+
+. bysort female: summarize wage
+
+----------------------------------------------------------------------------------------
+-> female = 0
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        wage |        274    7.099489    4.160858        1.5      24.98
+
+----------------------------------------------------------------------------------------
+-> female = 1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        wage |        252    4.587659    2.529363        .53      21.63
+
+
+. 
+. /*=============================================>>>>>
+> = Edit data =
+> ===============================================>>>>>*/
+. 
+. /*----------- Keep and drop variables -----------*/
+. keep wage educ exper tenure female south west
+
+. drop tenure
+
+. drop if wage<2
+(8 observations deleted)
+
+. 
+. /*----------- Label variables -----------*/
+. label variable wage "hourly wage in dollars"
+
+. describe wage
+
+              storage   display    value
+variable name   type    format     label      variable label
+----------------------------------------------------------------------------------------
+wage            double  %10.0g                hourly wage in dollars
+
+. 
+. /*----------- Generate new variables -----------*/
+. gen logwage = log(wage)
+
+. gen educsq = educ^2
+
+. gen southwest = south+west
+
+. 
+. /*=============================================>>>>>
+> = Estimate regression models =
+> ===============================================>>>>>*/
+. 
+. /*----------- Install outreg2 package -----------*/
+. *ssc install outreg2
+. 
+. /*----------- Estimate a simple regression model -----------*/
+. reg wage educ
+
+      Source |       SS           df       MS      Number of obs   =       518
+-------------+----------------------------------   F(1, 516)       =     99.37
+       Model |  1130.67516         1  1130.67516   Prob > F        =    0.0000
+    Residual |  5871.21213       516  11.3783181   R-squared       =    0.1615
+-------------+----------------------------------   Adj R-squared   =    0.1599
+       Total |  7001.88729       517  13.5433023   Root MSE        =    3.3732
+
+------------------------------------------------------------------------------
+        wage |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        educ |   .5322258   .0533908     9.97   0.000     .4273358    .6371158
+       _cons |  -.7350043   .6881716    -1.07   0.286    -2.086967    .6169585
+------------------------------------------------------------------------------
+
+. 
+. /*----------- Export results in table -----------*/
+. outreg2 using "../results/${programName}-regtable.xls", excel dec(4) ctitle(Model) lab
+> el replace
+../results/c00-introStata-regtable.xls
+dir : seeout
+
+. 
+. /*----------- Estimate a multiple regression model -----------*/
+. reg wage educ exper
+
+      Source |       SS           df       MS      Number of obs   =       518
+-------------+----------------------------------   F(2, 515)       =     73.15
+       Model |   1548.9557         2  774.477849   Prob > F        =    0.0000
+    Residual |  5452.93159       515  10.5882167   R-squared       =    0.2212
+-------------+----------------------------------   Adj R-squared   =    0.2182
+       Total |  7001.88729       517  13.5433023   Root MSE        =     3.254
+
+------------------------------------------------------------------------------
+        wage |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        educ |   .6347227   .0540238    11.75   0.000     .5285886    .7408567
+       exper |   .0694718   .0110532     6.29   0.000      .047757    .0911866
+       _cons |  -3.209359   .7718008    -4.16   0.000    -4.725624   -1.693094
+------------------------------------------------------------------------------
+
+. 
+. /*----------- Export results in table, append -----------*/
+. outreg2 using "../results/${programName}-regtable.xls", excel dec(4) ctitle(Model) lab
+> el append
+../results/c00-introStata-regtable.xls
+dir : seeout
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/carlos/Github/00-DS/applied-econometrics/c00-introStata/../results/c
+> 00-introStata.txt
+  log type:  text
+ closed on:   4 Apr 2021, 20:10:19
+----------------------------------------------------------------------------------------
